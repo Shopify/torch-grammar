@@ -3,30 +3,40 @@ from math import inf
 import grammar_parser
 from functools import lru_cache
 import time
+import torch
 
 class LogitsProcessor:
     def __init__(self, grammar):
         self.grammar = grammar
         self.stacks = grammar.init_stacks()
+        self.last_size = 0
 
     def accept_token(self, token):
         self.stacks = self.grammar.accept_token(token, self.stacks)
 
     def __call__(self, input_ids, scores):
+        if len(input_ids[0]) != self.last_size + 1:
+            raise "Input size changed"
+        if self.last_size != 0:
+            self.stacks = self.grammar.accept_token(input_ids[0][-1], self.stacks)
+
         # TODO: the <s> token should be accounted for directly rather than just
         # dropped here...
         self.grammar.filter_logits(input_ids[0][1:], scores, self.stacks)
+
+        self.last_size += 1
         return scores
 
 class GrammarSampler:
     def __init__(self, input_text, start_rule_name, tokenizer):
+        self.logits_width = 32128 # WHY???
         self.tt = 0
         self.nt = 0
         state = grammar_parser.parse(input_text)
         src = state.out_grammar
         self.start_rule_id = state.symbol_ids.get(start_rule_name)
 
-        self.eos_token_id = tokenizer.eos_token_id
+        self.eos_token_id = 0 # tokenizer.eos_token_id
         self.tokens_trie = {}
         self.load_tokens(tokenizer)
         self.src = src
@@ -47,13 +57,13 @@ class GrammarSampler:
         self.start_rule = rules[self.start_rule_id]
         self.rules = rules
 
-    def insert_into_trie(self, trie, token_str, token_id):
+    def insert_into_trie(self, trie, token_bytes, token_id):
         current = trie
-        for char in token_str:
-            if char not in current:
-                current[char] = {}
-            current = current[char]
-        current['_0'] = token_id
+        for byte in token_bytes:
+            if byte not in current:
+                current[byte] = {}
+            current = current[byte]
+        current[-1] = token_id
 
     def load_tokens(self, tokenizer):
         def replace_hex(match):
@@ -62,11 +72,10 @@ class GrammarSampler:
         def fmt_token(token):
             token = re.sub(r'<0x([0-9a-fA-F]{2})>', replace_hex, token)
             token = token.replace('▁', ' ')
-            # ascii
-            return token.encode('ascii', 'backslashreplace').decode('ascii')
-        self.tokens = [fmt_token(tokenizer.convert_ids_to_tokens(i)) for i in range(tokenizer.vocab_size)]
-        for token_id, token_str in enumerate(self.tokens):
-            self.insert_into_trie(self.tokens_trie, token_str, token_id)
+            return bytes(token, 'utf-8')
+        self.tokens = [fmt_token(tokenizer.convert_ids_to_tokens(i)) for i in range(self.logits_width)]
+        for token_id, token_bytes in enumerate(self.tokens):
+            self.insert_into_trie(self.tokens_trie, token_bytes, token_id)
 
     def logits_processor(self):
         return LogitsProcessor(self)
@@ -105,8 +114,7 @@ class GrammarSampler:
             subpos += 1 + self.src[subpos]
         return stacks
 
-    def accept(self, char, stacks):
-        char = ord(char)
+    def accept(self, byte, stacks):
         new_stacks = []
         for stack in stacks:
             if not stack:
@@ -117,10 +125,8 @@ class GrammarSampler:
 
             pos += 1
             found = False
-            # We could probably speed this up by preprocessing this to a bitmap
-            # or whatever
             for i in range(0, num_chars, 2):
-                if self.src[pos + i] <= char and (i + 1 == num_chars or char <= self.src[pos + i + 1]):
+                if self.src[pos + i] <= byte and byte <= self.src[pos + i + 1]:
                     found = True
                     break
             if not found:
@@ -140,8 +146,8 @@ class GrammarSampler:
                 return []
             assert False
 
-        for char in self.tokens[token]:
-            stacks = self.accept(char, stacks)
+        for byte in self.tokens[token]:
+            stacks = self.accept(byte, stacks)
             assert stacks != []
 
         return stacks
@@ -170,14 +176,13 @@ class GrammarSampler:
         accepts[self.eos_token_id] = (len(stack) == 0)
 
         def traverse_trie(trie, stacks):
-            for char, next_trie in trie.items():
-                if char == '_0':
+            for byte, next_trie in trie.items():
+                if byte == -1:
                     token_id = next_trie
                     if token_id != self.eos_token_id:
                         accepts[token_id] = bool(stacks)
                     continue
 
-                char = ord(char)
                 new_stacks = []
                 for stk in stacks:
                     if not stk:
@@ -186,7 +191,7 @@ class GrammarSampler:
                     pos = stk[-1]
                     num_chars = self.src[pos]
 
-                    if not self.pos_char_acceptance(pos)[char]:
+                    if not self.pos_char_acceptance(pos)[byte]:
                         continue
 
                     pos += num_chars + 1
@@ -240,8 +245,8 @@ class GrammarSampler:
 
 if __name__ == "__main__":
     import torch
-    from transformers import LLaMATokenizer
-    tokenizer = LLaMATokenizer.from_pretrained("huggyllama/llama-7b")
+    from transformers import T5Tokenizer
+    tokenizer = T5Tokenizer.from_pretrained("google/flan-ul2")
 
     with open("grammar.ebnf", "r") as file:
         input_text = file.read()
@@ -254,10 +259,10 @@ if __name__ == "__main__":
     print(f"\x1b[3;36mtorch seed: {torch.seed()}\x1b[0m")
 
     for i in range(10):
-        logits = torch.randn((1,tokenizer.vocab_size))
+        logits = torch.randn((1,grammar.logits_width))
         logits = logits_processor(ids, logits)
         token = torch.argmax(logits).item()
-        logits_processor.accept_token(token)
+        # logits_processor.accept_token(token)
         ids[0].append(token)
     print(f"\x1b[1mfirst 10 tokens: \x1b[1;35m{tokenizer.decode(ids[0])}\x1b[0m")
 
@@ -266,12 +271,12 @@ if __name__ == "__main__":
         n1000 = 0
         for i in range(1000):
             n1000 += 1
-            logits = torch.randn((1,tokenizer.vocab_size))
+            logits = torch.randn((1,grammar.logits_width))
             logits = logits_processor(ids, logits)
             token = torch.argmax(logits).item()
             int = token
             str = grammar.tokens[token]
-            hex = " ".join(f"{ord(c):02x}" for c in grammar.tokens[token])
+            hex = " ".join(f"{c:02x}" for c in grammar.tokens[token])
             logits_processor.accept_token(token)
             ids[0].append(token)
             if token == tokenizer.eos_token_id:
