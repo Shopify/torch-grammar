@@ -5,7 +5,6 @@ from functools import lru_cache
 import time
 import torch
 
-
 class LogitsProcessor:
     def __init__(self, grammar):
         self.grammar = grammar
@@ -246,57 +245,3 @@ class GrammarSampler:
         acceptance = acceptance.reshape(len(stacks), -1).any(dim=0)
         # Logits to -inf where False
         logits[0, ~acceptance] = -inf
-
-
-if __name__ == "__main__":
-    from transformers import LlamaTokenizer
-
-    tokenizer = LlamaTokenizer.from_pretrained("huggyllama/llama-7b")
-
-    with open("grammar.ebnf", "r") as file:
-        input_text = file.read()
-    grammar = GrammarSampler(input_text, "root", tokenizer)
-
-    ids = [[1]]
-    logits_processor = grammar.logits_processor()
-
-    # torch.manual_seed(1111) # comment out the line below too to reproduce an error
-    print(f"\x1b[3;36mtorch seed: {torch.seed()}\x1b[0m")
-
-    for i in range(10):
-        logits = torch.randn((1, tokenizer.vocab_size))
-        logits = logits_processor(ids, logits)
-        token = torch.argmax(logits).item()
-        # logits_processor.accept_token(token)
-        ids[0].append(token)
-    print(f"\x1b[1mfirst 10 tokens: \x1b[1;35m{tokenizer.decode(ids[0])}\x1b[0m")
-
-    st = time.time()
-    try:
-        n1000 = 0
-        for i in range(1000):
-            n1000 += 1
-            logits = torch.randn((1, tokenizer.vocab_size))
-            logits = logits_processor(ids, logits)
-            token = torch.argmax(logits).item()
-            int = token
-            str = grammar.tokens[token]
-            hex = " ".join(f"{c:02x}" for c in grammar.tokens[token])
-            logits_processor.accept_token(token)
-            ids[0].append(token)
-            if token == tokenizer.eos_token_id:
-                break
-    except Exception as e:
-        print(f"\x1b[0;31m{tokenizer.decode(ids[0])}\x1b[0m")
-        raise (e)
-    et = time.time() - st
-    avg = et / n1000
-    print(
-        f"\x1b[1;34mµ={et*1000:.0f}µs\x1b[0;1m\tfor post-warmup tokens (n={n1000})\x1b[0m"
-    )
-
-    n = grammar.nt
-    ms = 1000 * (grammar.tt / grammar.nt)
-    print(
-        f"\x1b[1;34mµ={ms:.0f}ms\x1b[0;1m\tfor stack acceptance calculation (n={n})\x1b[0m"
-    )
