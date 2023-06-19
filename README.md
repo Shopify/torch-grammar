@@ -32,6 +32,17 @@ print(f"\x1b[1mfirst 10 tokens: \x1b[1;35m{tokenizer.decode(ids[0])}\x1b[0m")
 transformers model but this integration is not yet super clean. Take a look at
 the notebook in this repo for more info.
 
+### TODO / possible features
+
+* UTF-8 support... a bit of fiddling but not terribly hard
+* More expressive grammars... lookahead would be challenging.
+* Easier integration with various tokenizers... LLaMA works well; T5 presents
+  significant challenges; haven't even tried others.
+* Testing and automatic benchmarking.
+* Binary parse is probably not carrying its weight with all the caching and
+  precomputation we're doing now; it should be rewritten to something less
+  confusing.
+
 ### Related Work
 
 The code was originally adapted from
