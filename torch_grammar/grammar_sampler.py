@@ -188,28 +188,6 @@ class GrammarSampler:
         self.nt += 1
         return x
 
-    def debug_stacks(self, stacks):
-        print("\x1b[1;35m/========== STACK DEBUG =============")
-        for stack in stacks:
-            n_els = self.src[stack[-1]]
-            stuff = self.src[stack[-1] : stack[-1] + n_els + 1]
-            if stuff[0] == 1:
-                print(f"| \x1b[3m{stack} -- rule#{stuff[1]}\x1b[0m")
-            else:
-                char_ranges = stuff[1:]
-                # each pair of elements is a range of chars (e.g. 97,122 for a-z).
-                # print them like a regex... e.g. 97,122,95,95,32,32 is [a-z_ ]
-                regex_str = "["
-                for i in range(0, len(char_ranges), 2):
-                    start, end = char_ranges[i], char_ranges[i + 1]
-                    if start == end:
-                        regex_str += chr(start)
-                    else:
-                        regex_str += f"{chr(start)}-{chr(end)}"
-                regex_str += "]"
-                print(f"| {stack} -- {regex_str}")
-        print("\\========== / STACK DEBUG ===========\x1b[0m")
-
     def filter_logits(self, input_ids, logits, stacks):
         # resolve each stack to a tensor of True/False for each token
         # indicating acceptance
