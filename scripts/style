@@ -1,0 +1,19 @@
+#!/bin/bash
+set -e
+
+ROOT="$(dirname "$0")/.."
+
+BLACK_EXCLUDE='\.git | \.__pycache__' 
+
+case $1 in
+  -f|--fix)
+    ruff --fix "${ROOT}"
+    black --exclude="${BLACK_EXCLUDE}" "${ROOT}"
+    ;;
+  *)
+    echo $'\x1b[1;34mrun with --fix to auto-fix style issues\x1b[0m'
+    ruff check "${ROOT}"
+    black --check --exclude="${BLACK_EXCLUDE}" "${ROOT}"
+    ;;
+esac
+

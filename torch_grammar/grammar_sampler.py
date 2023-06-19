@@ -1,9 +1,10 @@
 import re
 from math import inf
-import grammar_parser
+from . import grammar_parser
 from functools import lru_cache
 import time
 import torch
+
 
 class LogitsProcessor:
     def __init__(self, grammar):
@@ -27,16 +28,16 @@ class LogitsProcessor:
         self.last_size += 1
         return scores
 
+
 class GrammarSampler:
     def __init__(self, input_text, start_rule_name, tokenizer):
-        self.logits_width = 32128 # WHY???
         self.tt = 0
         self.nt = 0
         state = grammar_parser.parse(input_text)
         src = state.out_grammar
         self.start_rule_id = state.symbol_ids.get(start_rule_name)
 
-        self.eos_token_id = 0 # tokenizer.eos_token_id
+        self.eos_token_id = tokenizer.eos_token_id
         self.tokens_trie = {}
         self.load_tokens(tokenizer)
         self.src = src
@@ -44,7 +45,7 @@ class GrammarSampler:
         pos = 0
         rules = []
 
-        while src[pos] != 0xffff:
+        while src[pos] != 0xFFFF:
             rule_id = src[pos]
             if len(rules) <= rule_id:
                 rules.extend([None] * (rule_id + 1 - len(rules)))
@@ -69,11 +70,16 @@ class GrammarSampler:
         def replace_hex(match):
             hex_value = match.group(1)
             return chr(int(hex_value, 16))
+
         def fmt_token(token):
-            token = re.sub(r'<0x([0-9a-fA-F]{2})>', replace_hex, token)
-            token = token.replace('▁', ' ')
-            return bytes(token, 'utf-8')
-        self.tokens = [fmt_token(tokenizer.convert_ids_to_tokens(i)) for i in range(self.logits_width)]
+            token = re.sub(r"<0x([0-9a-fA-F]{2})>", replace_hex, token)
+            token = token.replace("▁", " ")
+            return bytes(token, "utf-8")
+
+        self.tokens = [
+            fmt_token(tokenizer.convert_ids_to_tokens(i))
+            for i in range(tokenizer.vocab_size)
+        ]
         for token_id, token_bytes in enumerate(self.tokens):
             self.insert_into_trie(self.tokens_trie, token_bytes, token_id)
 
@@ -154,11 +160,9 @@ class GrammarSampler:
 
     @lru_cache(maxsize=None)
     def pos_char_acceptance(self, pos):
-        ipos = pos
         acceptance = [False] * 256
         num_chars = self.src[pos]
         pos += 1
-        found = False
         for i in range(0, num_chars, 2):
             start = self.src[pos + i]
             end = self.src[pos + i + 1]
@@ -166,14 +170,13 @@ class GrammarSampler:
                 acceptance[j] = True
         return acceptance
 
-
     @lru_cache(maxsize=1024)
     def token_acceptance_for_stack(self, stack):
         st = time.time()
-        stack = list(stack) # needs to come in as a tuple for lru_cache
+        stack = list(stack)  # needs to come in as a tuple for lru_cache
 
         accepts = [False] * len(self.tokens)
-        accepts[self.eos_token_id] = (len(stack) == 0)
+        accepts[self.eos_token_id] = len(stack) == 0
 
         def traverse_trie(trie, stacks):
             for byte, next_trie in trie.items():
@@ -215,38 +218,40 @@ class GrammarSampler:
         print("\x1b[1;35m/========== STACK DEBUG =============")
         for stack in stacks:
             n_els = self.src[stack[-1]]
-            stuff = self.src[stack[-1]:stack[-1] + n_els + 1]
+            stuff = self.src[stack[-1] : stack[-1] + n_els + 1]
             if stuff[0] == 1:
                 print(f"| \x1b[3m{stack} -- rule#{stuff[1]}\x1b[0m")
             else:
                 char_ranges = stuff[1:]
                 # each pair of elements is a range of chars (e.g. 97,122 for a-z).
                 # print them like a regex... e.g. 97,122,95,95,32,32 is [a-z_ ]
-                regex_str = '['
+                regex_str = "["
                 for i in range(0, len(char_ranges), 2):
                     start, end = char_ranges[i], char_ranges[i + 1]
                     if start == end:
                         regex_str += chr(start)
                     else:
                         regex_str += f"{chr(start)}-{chr(end)}"
-                regex_str += ']'
+                regex_str += "]"
                 print(f"| {stack} -- {regex_str}")
         print("\\========== / STACK DEBUG ===========\x1b[0m")
-
 
     def filter_logits(self, input_ids, logits, stacks):
         # resolve each stack to a tensor of True/False for each token
         # indicating acceptance
-        acceptance = torch.cat([self.token_acceptance_for_stack(tuple(stack)) for stack in stacks])
+        acceptance = torch.cat(
+            [self.token_acceptance_for_stack(tuple(stack)) for stack in stacks]
+        )
         # Merge stacks: any True => True
         acceptance = acceptance.reshape(len(stacks), -1).any(dim=0)
         # Logits to -inf where False
-        logits[0,~acceptance] = -inf
+        logits[0, ~acceptance] = -inf
+
 
 if __name__ == "__main__":
-    import torch
-    from transformers import T5Tokenizer
-    tokenizer = T5Tokenizer.from_pretrained("google/flan-ul2")
+    from transformers import LlamaTokenizer
+
+    tokenizer = LlamaTokenizer.from_pretrained("huggyllama/llama-7b")
 
     with open("grammar.ebnf", "r") as file:
         input_text = file.read()
@@ -259,7 +264,7 @@ if __name__ == "__main__":
     print(f"\x1b[3;36mtorch seed: {torch.seed()}\x1b[0m")
 
     for i in range(10):
-        logits = torch.randn((1,grammar.logits_width))
+        logits = torch.randn((1, tokenizer.vocab_size))
         logits = logits_processor(ids, logits)
         token = torch.argmax(logits).item()
         # logits_processor.accept_token(token)
@@ -271,7 +276,7 @@ if __name__ == "__main__":
         n1000 = 0
         for i in range(1000):
             n1000 += 1
-            logits = torch.randn((1,grammar.logits_width))
+            logits = torch.randn((1, tokenizer.vocab_size))
             logits = logits_processor(ids, logits)
             token = torch.argmax(logits).item()
             int = token
@@ -283,12 +288,15 @@ if __name__ == "__main__":
                 break
     except Exception as e:
         print(f"\x1b[0;31m{tokenizer.decode(ids[0])}\x1b[0m")
-        raise(e)
+        raise (e)
     et = time.time() - st
     avg = et / n1000
-    print(f"\x1b[1;34mµ={et*1000:.0f}µs\x1b[0;1m\tfor post-warmup tokens (n={n1000})\x1b[0m")
+    print(
+        f"\x1b[1;34mµ={et*1000:.0f}µs\x1b[0;1m\tfor post-warmup tokens (n={n1000})\x1b[0m"
+    )
 
     n = grammar.nt
     ms = 1000 * (grammar.tt / grammar.nt)
-    print(f"\x1b[1;34mµ={ms:.0f}ms\x1b[0;1m\tfor stack acceptance calculation (n={n})\x1b[0m")
-
+    print(
+        f"\x1b[1;34mµ={ms:.0f}ms\x1b[0;1m\tfor stack acceptance calculation (n={n})\x1b[0m"
+    )

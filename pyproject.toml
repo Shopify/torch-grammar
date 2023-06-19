@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "torch-grammar"
+version = "0.1.0"
+description = "Restrict LLM generations to a context-free grammar"
+authors = ["Burke Libbey <burke.libbey@shopify.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "torch_grammar"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+torch = "^2.0.1"
+transformers = "^4.30.2"
+sentencepiece = "^0.1.99"
+black = {extras = ["jupyter"], version = "^23.3.0"}
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.0.272"
+black = "^23.3.0"
+pytest = "^7.3.2"
+
+
+[[tool.poetry.source]]
+name = "shopify"
+url = "https://pkgs.shopify.io/basic/data/python/simple/"
+priority = "primary"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
