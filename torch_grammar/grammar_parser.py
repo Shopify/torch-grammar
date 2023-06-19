@@ -276,7 +276,7 @@ def print_grammar(file, state):
 
 if __name__ == "__main__":
     try:
-        with open("grammar.ebnf", "r") as file:
+        with open("examples/grammar.ebnf", "r") as file:
             input_text = file.read()
         state = parse(input_text)
         print_grammar(sys.stdout, state)

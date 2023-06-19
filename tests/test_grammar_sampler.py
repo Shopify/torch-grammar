@@ -11,7 +11,7 @@ class TestGrammarSampler(unittest.TestCase):
 
         # Initialize tokenizer and grammar
         tokenizer = LlamaTokenizer.from_pretrained("huggyllama/llama-7b")
-        with open("grammar.ebnf", "r") as file:
+        with open("examples/grammar.ebnf", "r") as file:
             input_text = file.read()
         grammar = GrammarSampler(input_text, "root", tokenizer)
 

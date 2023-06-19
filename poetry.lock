@@ -11,11 +11,6 @@ files = [
     {file = "appnope-0.1.3.tar.gz", hash = "sha256:02bd91c4de869fbb1e1c50aafc4098827a7a54ab2f39d9dcba6c9547ed920e24"},
 ]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "asttokens"
 version = "2.2.1"
@@ -33,11 +28,6 @@ six = "*"
 [package.extras]
 test = ["astroid", "pytest"]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "backcall"
 version = "0.2.0"
@@ -48,11 +38,6 @@ files = [
     {file = "backcall-0.2.0-py2.py3-none-any.whl", hash = "sha256:fbbce6a29f263178a1f7915c1940bde0ec2b2a967566fe1c65c1dfb7422bd255"},
     {file = "backcall-0.2.0.tar.gz", hash = "sha256:5cbdbf27be5e7cfadb448baf0aa95508f91f2bbc6c6437cd9cd06e2a4c215e1e"},
 ]
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "black"
@@ -104,11 +89,6 @@ d = ["aiohttp (>=3.7.4)"]
 jupyter = ["ipython (>=7.8.0)", "tokenize-rt (>=3.2.0)"]
 uvloop = ["uvloop (>=0.15.2)"]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "certifi"
 version = "2023.5.7"
@@ -119,11 +99,6 @@ files = [
     {file = "certifi-2023.5.7-py3-none-any.whl", hash = "sha256:c6c2e98f5c7869efca1f8916fed228dd91539f9f1b444c314c06eef02980c716"},
     {file = "certifi-2023.5.7.tar.gz", hash = "sha256:0f0d56dc5a6ad56fd4ba36484d6cc34451e1c6548c61daad8c320169f91eddc7"},
 ]
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "charset-normalizer"
@@ -209,11 +184,6 @@ files = [
     {file = "charset_normalizer-3.1.0-py3-none-any.whl", hash = "sha256:3d9098b479e78c85080c98e1e35ff40b4a31d8953102bb0fd7d1b6f8a2111a3d"},
 ]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "click"
 version = "8.1.3"
@@ -228,11 +198,6 @@ files = [
 [package.dependencies]
 colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "colorama"
 version = "0.4.6"
@@ -244,11 +209,6 @@ files = [
     {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
 ]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "decorator"
 version = "5.1.1"
@@ -259,11 +219,6 @@ files = [
     {file = "decorator-5.1.1-py3-none-any.whl", hash = "sha256:b8c3f85900b9dc423225913c5aace94729fe1fa9763b38939a95226f02d37186"},
     {file = "decorator-5.1.1.tar.gz", hash = "sha256:637996211036b6385ef91435e4fae22989472f9d571faba8927ba8253acbc330"},
 ]
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "exceptiongroup"
@@ -279,11 +234,6 @@ files = [
 [package.extras]
 test = ["pytest (>=6)"]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "executing"
 version = "1.2.0"
@@ -297,11 +247,6 @@ files = [
 
 [package.extras]
 tests = ["asttokens", "littleutils", "pytest", "rich"]
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "filelock"
@@ -318,11 +263,6 @@ files = [
 docs = ["furo (>=2023.5.20)", "sphinx (>=7.0.1)", "sphinx-autodoc-typehints (>=1.23,!=1.23.4)"]
 testing = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "diff-cover (>=7.5)", "pytest (>=7.3.1)", "pytest-cov (>=4.1)", "pytest-mock (>=3.10)", "pytest-timeout (>=2.1)"]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "fire"
 version = "0.5.0"
@@ -336,11 +276,6 @@ files = [
 [package.dependencies]
 six = "*"
 termcolor = "*"
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "fsspec"
@@ -377,11 +312,6 @@ smb = ["smbprotocol"]
 ssh = ["paramiko"]
 tqdm = ["tqdm"]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "huggingface-hub"
 version = "0.15.1"
@@ -413,11 +343,6 @@ testing = ["InquirerPy (==0.3.4)", "Jinja2", "Pillow", "gradio", "jedi", "numpy"
 torch = ["torch"]
 typing = ["types-PyYAML", "types-requests", "types-simplejson", "types-toml", "types-tqdm", "types-urllib3"]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "idna"
 version = "3.4"
@@ -429,11 +354,6 @@ files = [
     {file = "idna-3.4.tar.gz", hash = "sha256:814f528e8dead7d329833b91c5faa87d60bf71824cd12a7530b5526063d02cb4"},
 ]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "iniconfig"
 version = "2.0.0"
@@ -444,11 +364,6 @@ files = [
     {file = "iniconfig-2.0.0-py3-none-any.whl", hash = "sha256:b6a85871a79d2e3b22d2d1b94ac2824226a63c6b741c88f7ae975f18b6778374"},
     {file = "iniconfig-2.0.0.tar.gz", hash = "sha256:2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3"},
 ]
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "ipython"
@@ -488,11 +403,6 @@ qtconsole = ["qtconsole"]
 test = ["pytest (<7.1)", "pytest-asyncio", "testpath"]
 test-extra = ["curio", "matplotlib (!=3.2.0)", "nbformat", "numpy (>=1.21)", "pandas", "pytest (<7.1)", "pytest-asyncio", "testpath", "trio"]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "jedi"
 version = "0.18.2"
@@ -512,11 +422,6 @@ docs = ["Jinja2 (==2.11.3)", "MarkupSafe (==1.1.1)", "Pygments (==2.8.1)", "alab
 qa = ["flake8 (==3.8.3)", "mypy (==0.782)"]
 testing = ["Django (<3.1)", "attrs", "colorama", "docopt", "pytest (<7.0.0)"]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "jinja2"
 version = "3.1.2"
@@ -533,11 +438,6 @@ MarkupSafe = ">=2.0"
 
 [package.extras]
 i18n = ["Babel (>=2.7)"]
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "markupsafe"
@@ -598,11 +498,6 @@ files = [
     {file = "MarkupSafe-2.1.3.tar.gz", hash = "sha256:af598ed32d6ae86f1b747b82783958b1a4ab8f617b06fe68795c7f026abbdcad"},
 ]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "matplotlib-inline"
 version = "0.1.6"
@@ -616,11 +511,6 @@ files = [
 
 [package.dependencies]
 traitlets = "*"
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "mpmath"
@@ -639,11 +529,6 @@ docs = ["sphinx"]
 gmpy = ["gmpy2 (>=2.1.0a4)"]
 tests = ["pytest (>=4.6)"]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "mypy-extensions"
 version = "1.0.0"
@@ -654,11 +539,6 @@ files = [
     {file = "mypy_extensions-1.0.0-py3-none-any.whl", hash = "sha256:4392f6c0eb8a5668a69e23d168ffa70f0be9ccfd32b5cc2d26a34ae5b844552d"},
     {file = "mypy_extensions-1.0.0.tar.gz", hash = "sha256:75dbf8955dc00442a438fc4d0666508a9a97b6bd41aa2f0ffe9d2f2725af0782"},
 ]
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "networkx"
@@ -677,11 +557,6 @@ developer = ["mypy (>=1.1)", "pre-commit (>=3.2)"]
 doc = ["nb2plots (>=0.6)", "numpydoc (>=1.5)", "pillow (>=9.4)", "pydata-sphinx-theme (>=0.13)", "sphinx (>=6.1)", "sphinx-gallery (>=0.12)", "texext (>=0.6.7)"]
 extra = ["lxml (>=4.6)", "pydot (>=1.4.2)", "pygraphviz (>=1.10)", "sympy (>=1.10)"]
 test = ["codecov (>=2.1)", "pytest (>=7.2)", "pytest-cov (>=4.0)"]
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "numpy"
@@ -728,11 +603,6 @@ files = [
     {file = "packaging-23.1.tar.gz", hash = "sha256:a392980d2b6cffa644431898be54b0045151319d1e7ec34f0cfed48767dd334f"},
 ]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "parso"
 version = "0.8.3"
@@ -748,11 +618,6 @@ files = [
 qa = ["flake8 (==3.8.3)", "mypy (==0.782)"]
 testing = ["docopt", "pytest (<6.0.0)"]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "pathspec"
 version = "0.11.1"
@@ -763,11 +628,6 @@ files = [
     {file = "pathspec-0.11.1-py3-none-any.whl", hash = "sha256:d8af70af76652554bd134c22b3e8a1cc46ed7d91edcdd721ef1a0c51a84a5293"},
     {file = "pathspec-0.11.1.tar.gz", hash = "sha256:2798de800fa92780e33acca925945e9a19a133b715067cf165b8866c15a31687"},
 ]
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "pexpect"
@@ -783,11 +643,6 @@ files = [
 [package.dependencies]
 ptyprocess = ">=0.5"
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "pickleshare"
 version = "0.7.5"
@@ -798,11 +653,6 @@ files = [
     {file = "pickleshare-0.7.5-py2.py3-none-any.whl", hash = "sha256:9649af414d74d4df115d5d718f82acb59c9d418196b7b4290ed47a12ce62df56"},
     {file = "pickleshare-0.7.5.tar.gz", hash = "sha256:87683d47965c1da65cdacaf31c8441d12b8044cdec9aca500cd78fc2c683afca"},
 ]
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "platformdirs"
@@ -819,11 +669,6 @@ files = [
 docs = ["furo (>=2023.5.20)", "proselint (>=0.13)", "sphinx (>=7.0.1)", "sphinx-autodoc-typehints (>=1.23,!=1.23.4)"]
 test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.3.1)", "pytest-cov (>=4.1)", "pytest-mock (>=3.10)"]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "pluggy"
 version = "1.1.0"
@@ -839,11 +684,6 @@ files = [
 dev = ["pre-commit", "tox"]
 testing = ["pytest", "pytest-benchmark"]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "prompt-toolkit"
 version = "3.0.38"
@@ -858,11 +698,6 @@ files = [
 [package.dependencies]
 wcwidth = "*"
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "ptyprocess"
 version = "0.7.0"
@@ -873,11 +708,6 @@ files = [
     {file = "ptyprocess-0.7.0-py2.py3-none-any.whl", hash = "sha256:4b41f3967fce3af57cc7e94b888626c18bf37a083e3651ca8feeb66d492fef35"},
     {file = "ptyprocess-0.7.0.tar.gz", hash = "sha256:5c5d0a3b48ceee0b48485e0c26037c0acd7d29765ca3fbb5cb3831d347423220"},
 ]
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "pure-eval"
@@ -892,11 +722,6 @@ files = [
 
 [package.extras]
 tests = ["pytest"]
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "pygments"
@@ -933,11 +758,6 @@ tomli = {version = ">=1.0.0", markers = "python_version < \"3.11\""}
 
 [package.extras]
 testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "pyyaml"
@@ -1085,11 +905,6 @@ files = [
     {file = "regex-2023.6.3.tar.gz", hash = "sha256:72d1a25bf36d2050ceb35b517afe13864865268dfb45910e2e17a84be6cbfeb0"},
 ]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "requests"
 version = "2.31.0"
@@ -1110,11 +925,6 @@ urllib3 = ">=1.21.1,<3"
 [package.extras]
 socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "ruff"
@@ -1141,11 +951,6 @@ files = [
     {file = "ruff-0.0.272-py3-none-win_arm64.whl", hash = "sha256:06b8ee4eb8711ab119db51028dd9f5384b44728c23586424fd6e241a5b9c4a3b"},
     {file = "ruff-0.0.272.tar.gz", hash = "sha256:273a01dc8c3c4fd4c2af7ea7a67c8d39bb09bce466e640dd170034da75d14cab"},
 ]
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "safetensors"
@@ -1207,11 +1012,6 @@ tensorflow = ["tensorflow (>=2.11.0)"]
 testing = ["h5py (>=3.7.0)", "huggingface-hub (>=0.12.1)", "numpy (>=1.21.6)", "pytest (>=7.2.0)", "pytest-benchmark (>=4.0.0)", "setuptools-rust (>=1.5.2)"]
 torch = ["torch (>=1.10)"]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "sentencepiece"
 version = "0.1.99"
@@ -1266,11 +1066,6 @@ files = [
     {file = "sentencepiece-0.1.99.tar.gz", hash = "sha256:189c48f5cb2949288f97ccdb97f0473098d9c3dcf5a3d99d4eabe719ec27297f"},
 ]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "six"
 version = "1.16.0"
@@ -1281,11 +1076,6 @@ files = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
 ]
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "stack-data"
@@ -1306,11 +1096,6 @@ pure-eval = "*"
 [package.extras]
 tests = ["cython", "littleutils", "pygments", "pytest", "typeguard"]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "sympy"
 version = "1.12"
@@ -1324,11 +1109,6 @@ files = [
 
 [package.dependencies]
 mpmath = ">=0.19"
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "termcolor"
@@ -1344,11 +1124,6 @@ files = [
 [package.extras]
 tests = ["pytest", "pytest-cov"]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "tokenize-rt"
 version = "5.1.0"
@@ -1359,11 +1134,6 @@ files = [
     {file = "tokenize_rt-5.1.0-py2.py3-none-any.whl", hash = "sha256:9b7bb843e77dd6ed0be5564bfaaba200083911e0497841cd3e9235a6a9794d74"},
     {file = "tokenize_rt-5.1.0.tar.gz", hash = "sha256:08f0c2daa94c4052e53c2fcaa8e32585e6ae9bdfc800974092d031401694e002"},
 ]
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "tokenizers"
@@ -1419,11 +1189,6 @@ dev = ["black (==22.3)", "datasets", "numpy", "pytest", "requests"]
 docs = ["setuptools-rust", "sphinx", "sphinx-rtd-theme"]
 testing = ["black (==22.3)", "datasets", "numpy", "pytest", "requests"]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "tomli"
 version = "2.0.1"
@@ -1434,11 +1199,6 @@ files = [
     {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
     {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
 ]
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "torch"
@@ -1499,11 +1259,6 @@ notebook = ["ipywidgets (>=6)"]
 slack = ["slack-sdk"]
 telegram = ["requests"]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "traitlets"
 version = "5.9.0"
@@ -1518,11 +1273,6 @@ files = [
 [package.extras]
 docs = ["myst-parser", "pydata-sphinx-theme", "sphinx"]
 test = ["argcomplete (>=2.0)", "pre-commit", "pytest", "pytest-mock"]
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "transformers"
@@ -1593,11 +1343,6 @@ torchhub = ["filelock", "huggingface-hub (>=0.14.1,<1.0)", "importlib-metadata",
 video = ["av (==9.2.0)", "decord (==0.6.0)"]
 vision = ["Pillow"]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "typing-extensions"
 version = "4.6.3"
@@ -1608,11 +1353,6 @@ files = [
     {file = "typing_extensions-4.6.3-py3-none-any.whl", hash = "sha256:88a4153d8505aabbb4e13aacb7c486c2b4a33ca3b3f807914a9b4c844c471c26"},
     {file = "typing_extensions-4.6.3.tar.gz", hash = "sha256:d91d5919357fe7f681a9f2b5b4cb2a5f1ef0a1e9f59c4d8ff0d3491e05c0ffd5"},
 ]
-
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
 
 [[package]]
 name = "urllib3"
@@ -1631,11 +1371,6 @@ secure = ["certifi", "cryptography (>=1.9)", "idna (>=2.0.0)", "pyopenssl (>=17.
 socks = ["pysocks (>=1.5.6,!=1.5.7,<2.0)"]
 zstd = ["zstandard (>=0.18.0)"]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [[package]]
 name = "wcwidth"
 version = "0.2.6"
@@ -1647,12 +1382,7 @@ files = [
     {file = "wcwidth-0.2.6.tar.gz", hash = "sha256:a5220780a404dbe3353789870978e472cfe477761f06ee55077256e509b156d0"},
 ]
 
-[package.source]
-type = "legacy"
-url = "https://pkgs.shopify.io/basic/data/python/simple"
-reference = "shopify"
-
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "63e4956e032d94eb69727f4daa79b4f619b3944aac90a8f9f7bafcf5cf7f3719"
+content-hash = "41b229bac70c1f50d619d2f9973c7932b9e26383303003a1cd2018aa9c95806e"

@@ -22,17 +22,18 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install pytest black
+        python -m pip install poetry
+        sed -i 's/^torch =.*/torch = { url = "https:\/\/download.pytorch.org\/whl\/cpu\/torch-2.0.1%2Bcpu-cp311-cp311-linux_x86_64.whl" }/' pyproject.toml
+        poetry install
 
     - name: Run black for code formatting
       run: |
-        black --check .
+        poetry run black --check .
 
     - name: Run ruff for style checks
       run: |
-        ruff --check .
+        poetry run ruff .
 
     - name: Run pytest for tests
       run: |
-        pytest tests
+        poetry run pytest tests

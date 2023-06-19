@@ -20,12 +20,6 @@ black = "^23.3.0"
 pytest = "^7.3.2"
 fire = "^0.5.0"
 
-
-[[tool.poetry.source]]
-name = "shopify"
-url = "https://pkgs.shopify.io/basic/data/python/simple/"
-priority = "primary"
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
