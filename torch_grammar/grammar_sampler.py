@@ -5,6 +5,7 @@ from functools import lru_cache
 import time
 import torch
 
+
 class LogitsProcessor:
     def __init__(self, grammar):
         self.grammar = grammar
