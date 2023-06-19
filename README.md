@@ -43,6 +43,10 @@ the notebook in this repo for more info.
   precomputation we're doing now; it should be rewritten to something less
   confusing.
 
+### Broken seeds
+
+* 11833882144218229242
+
 ### Related Work
 
 The code was originally adapted from

@@ -1,6 +1,6 @@
-import re
 from math import inf
 from . import grammar_parser
+from .token_trie import TokenTrie, LEAF
 from functools import lru_cache
 import time
 import torch
@@ -38,8 +38,7 @@ class GrammarSampler:
         self.start_rule_id = state.symbol_ids.get(start_rule_name)
 
         self.eos_token_id = tokenizer.eos_token_id
-        self.tokens_trie = {}
-        self.load_tokens(tokenizer)
+        self.token_trie = TokenTrie(tokenizer)
         self.src = src
 
         pos = 0
@@ -57,31 +56,6 @@ class GrammarSampler:
 
         self.start_rule = rules[self.start_rule_id]
         self.rules = rules
-
-    def insert_into_trie(self, trie, token_bytes, token_id):
-        current = trie
-        for byte in token_bytes:
-            if byte not in current:
-                current[byte] = {}
-            current = current[byte]
-        current[-1] = token_id
-
-    def load_tokens(self, tokenizer):
-        def replace_hex(match):
-            hex_value = match.group(1)
-            return chr(int(hex_value, 16))
-
-        def fmt_token(token):
-            token = re.sub(r"<0x([0-9a-fA-F]{2})>", replace_hex, token)
-            token = token.replace("▁", " ")
-            return bytes(token, "utf-8")
-
-        self.tokens = [
-            fmt_token(tokenizer.convert_ids_to_tokens(i))
-            for i in range(tokenizer.vocab_size)
-        ]
-        for token_id, token_bytes in enumerate(self.tokens):
-            self.insert_into_trie(self.tokens_trie, token_bytes, token_id)
 
     def logits_processor(self):
         return LogitsProcessor(self)
@@ -152,7 +126,7 @@ class GrammarSampler:
                 return []
             assert False
 
-        for byte in self.tokens[token]:
+        for byte in self.token_trie.id2str(token):
             stacks = self.accept(byte, stacks)
             assert stacks != []
 
@@ -175,12 +149,12 @@ class GrammarSampler:
         st = time.time()
         stack = list(stack)  # needs to come in as a tuple for lru_cache
 
-        accepts = [False] * len(self.tokens)
+        accepts = [False] * len(self.token_trie)
         accepts[self.eos_token_id] = len(stack) == 0
 
         def traverse_trie(trie, stacks):
             for byte, next_trie in trie.items():
-                if byte == -1:
+                if byte == LEAF:
                     token_id = next_trie
                     if token_id != self.eos_token_id:
                         accepts[token_id] = bool(stacks)
@@ -206,7 +180,7 @@ class GrammarSampler:
                 if new_stacks:
                     traverse_trie(next_trie, new_stacks)
 
-        traverse_trie(self.tokens_trie, [stack])
+        traverse_trie(self.token_trie.trie, [stack])
 
         et = time.time() - st
         x = torch.tensor(accepts, dtype=torch.bool)
