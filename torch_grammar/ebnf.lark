@@ -1,0 +1,27 @@
+start: rule+
+?rule: rule_id "::=" alternate
+
+alternate: sequence ( "|" sequence )*
+sequence:  term+
+?term:     rule_id | literal | "(" alternate ")" | zero_or_more | one_or_more | zero_or_one
+
+zero_or_more: term "*"
+one_or_more:  term "+"
+zero_or_one:  term "?"
+
+?literal: ESCAPED_STRING | char_class
+
+char_class: CHAR_CLASS
+rule_id:    RULE_ID
+
+COMMENT: "#" /[^\n]*/ NEWLINE
+RULE_ID: /[a-z_]+/
+NEWLINE: "\n"
+CHAR_CLASS: /\[[^\]]+\]/
+
+%import common.WS
+%import common.ESCAPED_STRING
+
+%ignore WS
+%ignore COMMENT
+%ignore NEWLINE
