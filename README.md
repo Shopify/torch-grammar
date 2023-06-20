@@ -1,7 +1,7 @@
 # torch-grammar
 
-**Work in Progress: This won't actually do what you want yet unless you really
-want to get your hands dirty.**
+**Alpha Quality: This might do what you want. It's likely to not do what you
+want. Please open issues!**
 
 Torch-Grammar restricts a model to output a token sequence that conforms to a
 provided EBNF grammar.
@@ -9,22 +9,24 @@ provided EBNF grammar.
 For example:
 
 ```python
+import torch
+from torch_grammar import GrammarSampler
+from transformers import LlamaTokenizer
+tokenizer = LlamaTokenizer.from_pretrained("huggyllama/llama-7b")
 
-from transformers import LLaMATokenizer
-tokenizer = LLaMATokenizer.from_pretrained("huggyllama/llama-7b")
-
-with open("grammar.ebnf", "r") as file:
+with open("examples/grammar.ebnf", "r") as file:
     input_text = file.read()
 grammar = GrammarSampler(input_text, "root", tokenizer)
 
+ids = [[1]]
 logits_processor = grammar.logits_processor()
 
 for i in range(10):
-    logits = torch.randn((1,tokenizer.vocab_size))
-    logits = logits_processor(ids, logits)
-    token = torch.argmax(logits).item()
-    logits_processor.accept_token(token)
-    ids[0].append(token)
+  logits = torch.randn((1, tokenizer.vocab_size))
+  logits = logits_processor(ids, logits)
+  token = torch.argmax(logits).item()
+  # logits_processor.accept_token(token)
+  ids[0].append(token)
 print(f"\x1b[1mfirst 10 tokens: \x1b[1;35m{tokenizer.decode(ids[0])}\x1b[0m")
 ```
 
