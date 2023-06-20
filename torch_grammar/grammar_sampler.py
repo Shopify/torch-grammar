@@ -10,22 +10,25 @@ class LogitsProcessor:
     def __init__(self, grammar):
         self.grammar = grammar
         self.stacks = grammar.init_stacks()
-        self.last_size = 0
+        self.last_size = None
 
     def accept_token(self, token):
         self.stacks = self.grammar.accept_token(token, self.stacks)
 
     def __call__(self, input_ids, scores):
-        if len(input_ids[0]) != self.last_size + 1:
-            raise "Input size changed"
-        if self.last_size != 0:
+        if self.last_size is None:
+            self.query_width = len(input_ids[0])
+            pass
+        elif len(input_ids[0]) == self.last_size + 1:
             self.stacks = self.grammar.accept_token(input_ids[0][-1], self.stacks)
+        else:
+            raise "Input size changed"
 
         # TODO: the <s> token should be accounted for directly rather than just
         # dropped here...
-        self.grammar.filter_logits(input_ids[0][1:], scores, self.stacks)
+        self.grammar.filter_logits(input_ids[0][self.query_width:], scores, self.stacks)
 
-        self.last_size += 1
+        self.last_size = len(input_ids[0])
         return scores
 
 

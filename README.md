@@ -41,7 +41,7 @@ the notebook in this repo for more info.
 * Testing and automatic benchmarking.
 * Binary parse is probably not carrying its weight with all the caching and
   precomputation we're doing now; it should be rewritten to something less
-  confusing.
+  confusing. In fact it might work to just hijack Lark or something?
 
 ### Broken seeds
 
