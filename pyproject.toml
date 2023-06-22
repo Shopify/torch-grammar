@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "torch-grammar"
-version = "0.2.0"
+version = "0.2.1"
 description = "Restrict LLM generations to a context-free grammar"
 authors = ["Burke Libbey <burke.libbey@shopify.com>"]
 license = "MIT"
