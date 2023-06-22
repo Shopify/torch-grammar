@@ -15,9 +15,9 @@ class LogitsProcessor:
     def accept_token(self, token):
         self.stacks = self.grammar.accept_token(token, self.stacks)
 
+    # TODO: batching
     def __call__(self, input_ids, scores):
         if self.last_size is None:
-            self.query_width = len(input_ids[0])
             pass
         elif len(input_ids[0]) == self.last_size + 1:
             self.stacks = self.grammar.accept_token(input_ids[0][-1], self.stacks)
@@ -26,7 +26,7 @@ class LogitsProcessor:
 
         # TODO: the <s> token should be accounted for directly rather than just
         # dropped here...
-        self.grammar.filter_logits(input_ids[0][self.query_width:], scores, self.stacks)
+        self.grammar.filter_logits(scores[0], self.stacks)
 
         self.last_size = len(input_ids[0])
         return scores
@@ -191,7 +191,7 @@ class GrammarSampler:
         self.nt += 1
         return x
 
-    def filter_logits(self, input_ids, logits, stacks):
+    def filter_logits(self, logits, stacks):
         # resolve each stack to a tensor of True/False for each token
         # indicating acceptance
         acceptance = torch.cat(
@@ -200,4 +200,4 @@ class GrammarSampler:
         # Merge stacks: any True => True
         acceptance = acceptance.reshape(len(stacks), -1).any(dim=0)
         # Logits to -inf where False
-        logits[0, ~acceptance] = -inf
+        logits[~acceptance] = -inf
