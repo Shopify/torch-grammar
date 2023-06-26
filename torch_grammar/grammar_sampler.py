@@ -127,7 +127,7 @@ class GrammarSampler:
         if token == self.eos_token_id:
             if any(len(stack) == 0 for stack in stacks):
                 return []
-            assert False
+            raise Exception(f"EOS token not accepted with PDA stacks: {stacks}")
 
         for byte in self.token_trie.id2str(token):
             stacks = self.accept(byte, stacks)
