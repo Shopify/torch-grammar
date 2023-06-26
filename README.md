@@ -21,8 +21,9 @@ grammar = GrammarSampler(input_text, "root", tokenizer)
 ids = [[1]]
 logits_processor = grammar.logits_processor()
 
+vocab_size = len(tokenizer.get_vocab())
 for i in range(10):
-  logits = torch.randn((1, tokenizer.vocab_size))
+  logits = torch.randn((1, vocab_size))
   logits = logits_processor(ids, logits)
   token = torch.argmax(logits).item()
   # logits_processor.accept_token(token)

@@ -44,7 +44,9 @@ class TokenTrie:
                 token = tokenizer.convert_ids_to_tokens(id)
                 return bytes(token, "utf-8")
 
-        self.tokens = [fmt_token(i) for i in range(tokenizer.vocab_size)]
+        # note: vocab_size doesn't work here because there are also
+        # get_added_vocab() tokens
+        self.tokens = [fmt_token(i) for i in range(len(tokenizer.get_vocab()))]
         for token_id, token_bytes in enumerate(self.tokens):
             if token_bytes is not None:
                 self.insert_into_trie(self.trie, token_bytes, token_id)

@@ -21,7 +21,7 @@ class TestGrammarSampler(unittest.TestCase):
 
         # Generate tokens
         for i in range(10):
-            logits = torch.randn((1, tokenizer.vocab_size))
+            logits = torch.randn((1, len(tokenizer.get_vocab())))
             logits = logits_processor(ids, logits)
             token = torch.argmax(logits).item()
             ids[0].append(token)

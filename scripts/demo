@@ -22,8 +22,9 @@ def main(grammar_file="examples/grammar.ebnf"):
     # torch.manual_seed(1111) # comment out the line below too to reproduce an error
     print(f"\x1b[3;36mtorch seed: {torch.seed()}\x1b[0m")
 
+    vocab_size = len(tokenizer.get_vocab())
     for i in range(10):
-      logits = torch.randn((1, tokenizer.vocab_size))
+      logits = torch.randn((1, vocab_size))
       logits = logits_processor(ids, logits)
       token = torch.argmax(logits).item()
       ids[0].append(token)
@@ -37,7 +38,7 @@ def main(grammar_file="examples/grammar.ebnf"):
         if ids[0][-1] == tokenizer.eos_token_id:
             break
         n1000 += 1
-        logits = torch.randn((1, tokenizer.vocab_size))
+        logits = torch.randn((1, vocab_size))
         try:
             logits = logits_processor(ids, logits)
             token = torch.argmax(logits).item()
