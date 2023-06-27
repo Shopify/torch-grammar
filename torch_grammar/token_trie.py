@@ -24,10 +24,20 @@ class TokenTrie:
         if "gpt2" in tokenizer.__class__.__name__.lower():
             special = tokenizer.additional_special_tokens_ids
 
+            # Here, the decoder does a string replace on a bunch of sequences
+            # like ' .' for '.'. This interferes with our assumptions, where a
+            # token should always have exactly one representation.
+            # Fortunately(?) text-generation-inference doesn't seem to run this
+            # cleanup, so we get extraneous spaces. So, in order to generate
+            # the right token set for TGI, we have to skip the space trimming.
+            # See:
+            # https://github.com/huggingface/transformers/blob/main/src/transformers/tokenization_utils_base.py#L3588-L3600
             def fmt_token(id):
                 if id in special:
                     return None
-                return bytes(tokenizer.decode([id]), "utf-8")
+                return bytes(
+                    tokenizer.decode([id], clean_up_tokenization_spaces=False), "utf-8"
+                )
 
         elif "llama" in tokenizer.__class__.__name__.lower():
 

@@ -32,8 +32,7 @@ print(f"\x1b[1mfirst 10 tokens: \x1b[1;35m{tokenizer.decode(ids[0])}\x1b[0m")
 ```
 
 `logits_processor` is meant to be passed to `model.generate` in a HuggingFace
-transformers model but this integration is not yet super clean. Take a look at
-the notebook in this repo for more info.
+transformers model but this integration is not yet super clean.
 
 ### TODO / possible features
 
