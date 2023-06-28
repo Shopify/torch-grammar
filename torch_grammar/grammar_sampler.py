@@ -26,7 +26,7 @@ class LogitsProcessor:
 
         # TODO: the <s> token should be accounted for directly rather than just
         # dropped here...
-        self.grammar.filter_logits(scores[0], self.stacks)
+        self.grammar.filter_logits(scores[0], self.stacks, scores.device)
 
         self.last_size = len(input_ids[0])
         return scores
@@ -147,8 +147,8 @@ class GrammarSampler:
                 acceptance[j] = True
         return acceptance
 
-    @lru_cache(maxsize=1024)
-    def token_acceptance_for_stack(self, stack):
+    @lru_cache(maxsize=8192)
+    def token_acceptance_for_stack(self, stack, device):
         st = time.time()
         stack = list(stack)  # needs to come in as a tuple for lru_cache
 
@@ -186,16 +186,16 @@ class GrammarSampler:
         traverse_trie(self.token_trie.trie, [stack])
 
         et = time.time() - st
-        x = torch.tensor(accepts, dtype=torch.bool)
+        x = torch.tensor(accepts, dtype=torch.bool, device=device)
         self.tt += et
         self.nt += 1
         return x
 
-    def filter_logits(self, logits, stacks):
+    def filter_logits(self, logits, stacks, device):
         # resolve each stack to a tensor of True/False for each token
         # indicating acceptance
         acceptance = torch.cat(
-            [self.token_acceptance_for_stack(tuple(stack)) for stack in stacks]
+            [self.token_acceptance_for_stack(tuple(stack), device) for stack in stacks]
         )
         # Merge stacks: any True => True
         acceptance = acceptance.reshape(len(stacks), -1).any(dim=0)
