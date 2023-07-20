@@ -67,7 +67,9 @@ class GrammarSampler:
         stack = [self.start_rule + 2]
         return self.advance_stack(tuple(stack))
 
-    @lru_cache(maxsize=8000)
+    # For each stack, resolve rules to find the actual characters that are
+    # accepted by this stack (not the set of sub-rules).
+    @lru_cache(maxsize=32768)
     def advance_stack(self, stack):
         stack = list(stack)
         if len(stack) == 0:
@@ -135,6 +137,7 @@ class GrammarSampler:
 
         return stacks
 
+    # For each sub-rule in the grammar, cache whether each byte is accepted.
     @lru_cache(maxsize=None)
     def pos_char_acceptance(self, pos):
         acceptance = [False] * 256
@@ -147,7 +150,13 @@ class GrammarSampler:
                 acceptance[j] = True
         return acceptance
 
-    @lru_cache(maxsize=8192)
+    # Probably this should be configurable. If the grammar has an exceedingly
+    # large number of states, the correct setting is a tradeoff between GPU
+    # RAM usage and recomputation time.
+    #
+    # The main variable that pushes usage up here is number of states in the
+    # grammar.
+    @lru_cache(maxsize=32768)
     def token_acceptance_for_stack(self, stack, device):
         st = time.time()
         stack = list(stack)  # needs to come in as a tuple for lru_cache
