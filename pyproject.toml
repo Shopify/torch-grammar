@@ -15,7 +15,7 @@ sentencepiece = "^0.1.99"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.0.272"
-black = "^23.3.0"
+black = ">=23.3,<25.0"
 pytest = "^7.3.2"
 fire = "^0.5.0"
 
