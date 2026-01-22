@@ -11,7 +11,7 @@ packages = [{include = "torch_grammar"}]
 python = "^3.9"
 torch = "^2.0.0"
 transformers = "^4.29"
-sentencepiece = "^0.1.99"
+sentencepiece = ">=0.1.99,<0.3.0"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.0.272"
